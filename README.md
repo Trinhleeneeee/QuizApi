@@ -1,8 +1,9 @@
 # QuizApi
 **Steps to run the code:
 First, when running the code, paste the link: http://localhost:5132/start.html
-Then you can run the app.
-Note:
+Then you can run the app.**
+
+**Note:
 1.This is a static views, so the new path is start.html.
 2.Only seed data at User ID:1, so other UserIDs will not be able to load the quiz
 3.Because using UseInMemoryDatabase means using the device memory to run, there is no need to install or run any database application.**
