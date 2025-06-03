@@ -1,5 +1,6 @@
 # QuizApi
 **Files in project:**
+
 **1.QuizApiController.cs**
 This is the main API for the client (JS on the HTML side) to call.
 
@@ -22,8 +23,10 @@ Encapsulated business processing logic
 
 **7.SubmitAnswerDto.cs**
 DTO (Data Transfer Object) to receive data from the client when submitting answers.
+
 **8.wwwroot/(start,DoQuiz,Rrssult)**
 This directory contains static files that are served directly to the browser (HTML, JS, CSS...).
+
 **9.Program.cs**
 Entry point of the application.
 Configuring middleware, routing, service DI container, CORS
