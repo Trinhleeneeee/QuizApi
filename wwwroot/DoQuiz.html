@@ -1,0 +1,100 @@
+<!-- wwwroot/doquiz.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Làm bài Quiz</title>
+</head>
+
+<body>
+  <h2>Làm bài Quiz</h2>
+  <div id="quizContainer">Đang tải câu hỏi...</div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const quizId = params.get("quizId");
+    const quizResultId = params.get("quizResultId");
+
+    let currentQuestionIndex = 0;
+    let questions = [];
+
+    async function loadQuiz() {
+      try {
+        const res = await fetch(`/api/Quiz/${quizId}`);
+        const data = await res.json();
+        questions = data.questions?.$values || [];
+
+        console.log("Loaded questions:", questions);
+
+        if (!Array.isArray(questions) || questions.length === 0) {
+          document.getElementById("quizContainer").innerHTML = "<p>Không có câu hỏi nào trong quiz này.</p>";
+          return;
+        }
+
+        showQuestion();
+      } catch (err) {
+        console.error("Lỗi khi tải quiz:", err);
+        document.getElementById("quizContainer").innerHTML = "<p>Không thể tải quiz. Vui lòng thử lại sau.</p>";
+      }
+    }
+
+    function showQuestion() {
+      if (!Array.isArray(questions)) {
+        console.error("Dữ liệu câu hỏi không hợp lệ:", questions);
+        document.getElementById("quizContainer").innerHTML = "<p>Dữ liệu câu hỏi không hợp lệ.</p>";
+        return;
+      }
+
+      if (currentQuestionIndex >= questions.length) {
+        completeQuiz();
+        return;
+      }
+
+      const q = questions[currentQuestionIndex];
+      const answers = q.answers?.$values || [];
+
+      if (!q || !q.text || answers.length === 0) {
+        console.error("Câu hỏi hoặc đáp án không hợp lệ:", q);
+        document.getElementById("quizContainer").innerHTML = "<p>Câu hỏi hoặc đáp án không hợp lệ.</p>";
+        return;
+      }
+
+      document.getElementById("quizContainer").innerHTML = `
+    <h3>Câu ${currentQuestionIndex + 1}: ${q.text}</h3>
+    <form id="formAnswer">
+      ${answers.map(a => `
+        <label><input type="radio" name="answer" value="${a.id}"> ${a.text}</label><br>
+      `).join("")}
+      <button type="submit">Gửi câu trả lời</button>
+    </form>
+  `;
+
+      document.getElementById("formAnswer").onsubmit = async (e) => {
+        e.preventDefault();
+        const selected = document.querySelector('input[name="answer"]:checked');
+        if (!selected) return alert("Hãy chọn một đáp án");
+
+        await fetch(`/api/quiz/${quizResultId}/submit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            questionId: q.id,
+            answerId: parseInt(selected.value)
+          })
+        });
+
+        currentQuestionIndex++;
+        showQuestion();
+      };
+    }
+
+    async function completeQuiz() {
+      await fetch(`/api/quiz/${quizResultId}/complete`, { method: "POST" });
+      window.location.href = `result.html?quizResultId=${quizResultId}`;
+    }
+
+    loadQuiz();
+  </script>
+</body>
+
+</html>

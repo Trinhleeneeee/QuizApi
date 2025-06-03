@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\NewQuizApi\\wwwroot\\DoQuiz.html",
+      "PackagePath": "staticwebassets\\DoQuiz.html"
+    },
+    {
+      "Id": "E:\\NewQuizApi\\wwwroot\\Result.html",
+      "PackagePath": "staticwebassets\\Result.html"
+    },
+    {
+      "Id": "E:\\NewQuizApi\\wwwroot\\Start.html",
+      "PackagePath": "staticwebassets\\Start.html"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.NewQuizApi.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.NewQuizApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.NewQuizApi.props",
+      "PackagePath": "build\\NewQuizApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.NewQuizApi.props",
+      "PackagePath": "buildMultiTargeting\\NewQuizApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.NewQuizApi.props",
+      "PackagePath": "buildTransitive\\NewQuizApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,0 +1,52 @@
+<!-- wwwroot/result.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Kết quả Quiz</title>
+</head>
+
+<body>
+  <h2>Kết quả bài làm</h2>
+  <div id="resultContainer">Đang tải...</div>
+
+  <script>
+    const quizResultId = new URLSearchParams(window.location.search).get("quizResultId");
+
+    fetch(`/api/quiz/result/${quizResultId}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log("API response:", data); // <== Thêm dòng này
+        const answersArray = data.answers?.$values ?? [];
+        if (!Array.isArray(answersArray)) {
+          document.getElementById("resultContainer").innerHTML = "<p>Lỗi: Dữ liệu câu trả lời không hợp lệ.</p>";
+          return;
+        }
+
+        const resultHTML = `
+        <p>Điểm: ${data.score}</p>
+        <p>Trạng thái: ${data.passed ? "✅ Đạt" : "❌ Rớt"}</p>
+        <p>Thời gian: ${data.duration} giây</p>
+        <hr>
+        ${answersArray.map(a => `
+  <div>
+    <strong>${a.text}</strong><br>
+    Bạn chọn: ${a.yourAnswer}<br>
+    Kết quả: ${a.isCorrect ? "✅ Đúng" : "❌ Sai"}
+  </div><br>
+`).join("")}
+
+        <a href="start.html">Làm lại</a>
+      `;
+        document.getElementById("resultContainer").innerHTML = resultHTML;
+      })
+      .catch(err => {
+        console.error("Fetch error:", err);
+        document.getElementById("resultContainer").innerHTML = "<p>Không thể tải kết quả.</p>";
+      });
+  </script>
+
+</body>
+
+</html>

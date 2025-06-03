@@ -1,0 +1,30 @@
+<!-- wwwroot/start.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bắt đầu Quiz</title>
+</head>
+<body>
+  <h1>Chào mừng bạn đến với Quiz</h1>
+  <label>Quiz ID:
+    <input type="number" id="quizId" value="1" />
+  </label>
+  <button onclick="startQuiz()">Bắt đầu</button>
+
+  <script>
+    async function startQuiz() {
+      const quizId = document.getElementById("quizId").value;
+      const response = await fetch(`/api/quiz/${quizId}/start`, { method: "POST" });
+
+      if (!response.ok) {
+        alert("Không thể bắt đầu quiz.");
+        return;
+      }
+
+      const data = await response.json();
+      window.location.href = `doquiz.html?quizId=${quizId}&quizResultId=${data.id}`;
+    }
+  </script>
+</body>
+</html>
